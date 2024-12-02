@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parliament Chart</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #main-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            max-width: 900px;
+        }
+        #chart-container {
+            flex: 2;
+        }
+        #info-container {
+            flex: 1;
+            margin-left: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        svg {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gráfico Parlamentario</h1>
+    <div id="selector-container">
+        <label for="municipalidad-selector">Seleccione una Municipalidad:</label>
+        <select id="municipalidad-selector"></select>
+    </div>
+    <div id="main-container">
+        <div id="chart-container">
+            <svg id="chart" width="600" height="400"></svg>
+        </div>
+        <div id="info-container">
+            <h2>Bancas por Alianza</h2>
+            <ul id="bancas-lista"></ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selector = d3.select("#municipalidad-selector");
+            const svg = d3.select("#chart");
+            const width = +svg.attr("width");
+            const height = +svg.attr("height");
+            const g = svg.append("g")
+                .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+            const radius = Math.min(width, height) / 2 - 20;
+            const seatsPerRow = 24;
+
+            d3.csv("datosconcejos2023.csv").then(function(data) {
+                data.forEach(d => {
+                    d.Bancas = +d.Bancas; // Aseguramos que Bancas sea un número
+                });
+
+                const uniqueMunicipalidades = [...new Set(data.map(d => d.Municipalidad))];
+                selector.selectAll("option")
+                    .data(uniqueMunicipalidades)
+                    .enter()
+                    .append("option")
+                    .text(d => d)
+                    .attr("value", d => d);
+
+                function updateChart(municipalidad) {
+                    const filteredData = data.filter(d => d.Municipalidad === municipalidad);
+
+                    const totalSeats = d3.sum(filteredData, d => d.Bancas);
+
+                    const seats = [];
+                    filteredData.forEach(d => {
+                        for (let i = 0; i < d.Bancas; i++) {
+                            seats.push({ color: d.Colores, alianza: d.Alianza });
+                        }
+                    });
+
+                    const angleStep = Math.PI / totalSeats;
+                    const seatPositions = seats.map((seat, i) => {
+                        const t = i / (totalSeats - 1);
+                        const angle = Math.PI + t * Math.PI;
+                        const row = Math.floor(i / seatsPerRow);
+                        const r = radius - row * 20;
+                        return {
+                            ...seat,
+                            x: r * Math.cos(angle),
+                            y: r * Math.sin(angle)
+                        };
+                    });
+
+                    g.selectAll("circle").remove();
+                    g.selectAll("circle")
+                        .data(seatPositions)
+                        .enter()
+                        .append("circle")
+                        .attr("cx", d => d.x)
+                        .attr("cy", d => d.y)
+                        .attr("r", 8)
+                        .attr("fill", d => d.color)
+                        .append("title")
+                        .text(d => d.alianza);
+
+                    // Actualizar lista de bancas por alianza
+                    updateBancasList(filteredData);
+                }
+
+                function updateBancasList(filteredData) {
+                    const lista = d3.select("#bancas-lista");
+                    lista.html(""); // Limpia la lista previa
+
+                    filteredData.forEach(d => {
+                        const item = lista.append("li").style("display", "flex").style("align-items", "center").style("margin-bottom", "5px");
+
+                        // Cuadro de color
+                        item.append("div")
+                            .style("width", "20px")
+                            .style("height", "20px")
+                            .style("background-color", d.Colores)
+                            .style("margin-right", "10px");
+
+                        // Texto con alianza y bancas
+                        item.append("span")
+                            .text(`${d.Ediles}`);
+                    });
+                }
+
+                selector.on("change", function() {
+                    const selectedMunicipalidad = d3.select(this).property("value");
+                    updateChart(selectedMunicipalidad);
+                });
+
+                updateChart(uniqueMunicipalidades[0]);
+            }).catch(function(error) {
+                console.error("Error al cargar el CSV:", error);
+            });
+        });
+    </script>
+</body>
+</html>
