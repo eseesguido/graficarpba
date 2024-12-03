@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parliament Chart</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,6 +37,19 @@
             display: block;
             margin: 0 auto;
         }
+        #download-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #download-button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -44,7 +58,7 @@
         <label for="municipalidad-selector">Seleccione una Municipalidad:</label>
         <select id="municipalidad-selector"></select>
     </div>
-    <div id="main-container">
+    <div id="main-container" id="capture-area">
         <div id="chart-container">
             <svg id="chart" width="600" height="400"></svg>
         </div>
@@ -53,6 +67,7 @@
             <ul id="bancas-lista"></ul>
         </div>
     </div>
+    <button id="download-button">Descargar Gráfico</button>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -148,6 +163,17 @@
                 updateChart(uniqueMunicipalidades[0]);
             }).catch(function(error) {
                 console.error("Error al cargar el CSV:", error);
+            });
+
+            // Función para descargar el gráfico
+            document.getElementById("download-button").addEventListener("click", function() {
+                const captureArea = document.getElementById("main-container");
+                html2canvas(captureArea).then(canvas => {
+                    const link = document.createElement("a");
+                    link.download = "grafico_parlamentario.png";
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+                });
             });
         });
     </script>
