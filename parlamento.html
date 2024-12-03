@@ -9,10 +9,35 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+        header {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 5px 10px;
+        }
+        nav a:hover {
+            background-color: #555;
+            border-radius: 5px;
         }
         #main-container {
             display: flex;
@@ -21,6 +46,7 @@
             align-items: flex-start;
             width: 100%;
             max-width: 900px;
+            margin-top: 20px;
         }
         #chart-container {
             flex: 2;
@@ -53,12 +79,20 @@
     </style>
 </head>
 <body>
-    <h1>Concejos Deliberantes de PBA</h1>
+    <header>
+        <nav>
+            <a href="parlamento.html">Inicio</a>
+            <a href="sobre-proyecto.html">Sobre el proyecto</a>
+            <a href="sobre-autor.html">Sobre el autor</a>
+        </nav>
+    </header>
+
+    <h1>Gráfico Parlamentario</h1>
     <div id="selector-container">
         <label for="municipalidad-selector">Seleccione una Municipalidad:</label>
         <select id="municipalidad-selector"></select>
     </div>
-    <div id="main-container" id="capture-area">
+    <div id="main-container">
         <div id="chart-container">
             <svg id="chart" width="600" height="400"></svg>
         </div>
