@@ -13,7 +13,7 @@
             padding: 0;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            min-height: 100vh;
             background-color: #f0f0f0;
         }
         header {
@@ -94,6 +94,7 @@
             width: 100%;
             max-width: 900px;
             margin-top: 40px;
+            flex-grow: 1;
         }
         #chart-container {
             flex: 2;
@@ -137,13 +138,15 @@
         }
         #download-button {
             margin-top: 20px;
+            margin-bottom: 140px;
             padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 16px; 
+            align-self: center;
         }
         #download-button:hover {
             background-color: #45a049;
@@ -159,6 +162,13 @@
             #bancas-lista li {
                 width: calc(50% - 10px);
             }
+        }
+        footer {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
         }
     </style>
 </head>
@@ -188,6 +198,9 @@
         </div>
     </div>
     <button id="download-button">Descargar Gráfico</button>
+
+    <footer>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
