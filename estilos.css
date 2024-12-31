@@ -1,0 +1,133 @@
+:root {
+    --primary-bg-color: #333;
+    --secondary-bg-color: #f0f0f0;
+    --text-color-light: white;
+    --hover-bg-color: #555;
+    --download-button-color: #4CAF50;
+    --download-button-hover-color: #45a049;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: var(--secondary-bg-color);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+h1 {
+    text-align: center;
+    margin: 1rem 0;
+    padding: 0 1rem;
+}
+
+/* Header */
+header {
+    background-color: var(--primary-bg-color);
+    color: var(--text-color-light);
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+}
+
+#hamburger-button {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-color-light);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+nav a {
+    color: var(--text-color-light);
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: var(--hover-bg-color);
+    border-radius: 5px;
+}
+
+/* Footer */
+footer {
+    background-color: var(--primary-bg-color);
+    color: var(--text-color-light);
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
+    margin-top: auto;
+}
+
+.newsletter-text {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: var(--text-color-light);
+    margin-bottom: 1rem;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    #main-container {
+        flex-direction: column;
+        margin: 1rem 0;
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+
+    #hamburger-button {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 1rem;
+        transform: translateY(-50%);
+    }
+
+    nav {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--primary-bg-color);
+        padding: 1rem 0;
+    }
+
+    nav a {
+        text-align: center;
+        padding: 0.75rem 0;
+        border-top: 1px solid var(--hover-bg-color);
+    }
+
+    nav a:first-child {
+        border-top: none;
+    }
+
+    footer iframe {
+        max-width: 100%;
+        width: 100%;
+    }
+}
