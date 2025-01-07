@@ -33,12 +33,13 @@ h1 {
 } 
 
 h2 {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
 } 
 
 p {
     margin-left: 1rem;
     margin-bottom: 5px;
+    margin-right: 0.5rem;
 }
 
 /* Header */
