@@ -34,12 +34,56 @@ h1 {
 
 h2 {
     margin-left: 0.5rem;
+    cursor: pointer;
+    background-color: var(--primary-bg-color);
+    color: var(--text-color-light);
+    padding: 0.5rem;
+    transition: background-color 0.3s ease;
+} 
+
+h2:hover {
+    background-color: var(--hover-bg-color);
 } 
 
 p {
     margin-left: 1rem;
     margin-bottom: 5px;
     margin-right: 0.5rem;
+}
+
+.faq {
+    margin: 2rem auto;
+    max-width: 800px;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.faq-item {
+    border-bottom: 1px solid #ccc;
+    padding: 0.5rem 0;
+}
+
+.faq-answer {
+    display: none;
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+    color: #333;
+    animation: fadeIn 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 /* Header */
