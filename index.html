@@ -297,7 +297,7 @@
             window.addEventListener('resize', resizeChart);
             resizeChart();
 
-            d3.csv("/datosconcejos2023.csv").then(function(data) {
+            d3.csv("/hcd202501.csv").then(function(data) {
                 data.forEach(d => d.Bancas = +d.Bancas);
 
                 const selector = d3.select("#municipalidad-selector");
